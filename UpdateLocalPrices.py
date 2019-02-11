@@ -1,41 +1,43 @@
-#For use with a local csv spreadsheet
-
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import requests
 import json
-import time
+import os
+import sys
 
-# User Data:
-# Edit the following variable to match your sheet
-# The columns should correspond to those in your sheet, with column 'a' being '1' and so on.
-spreadsheetName = "Copy of Magic Collection"
-cardNameColumn = 2
-foilFlagColumn = 3
-priceColumn = 4
+import requests
+import xlrd
+from xlutils.copy import copy
 
-# use creds to create a client to interact with the Google Drive API
-scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
-client = gspread.authorize(creds)
+# 0 indexed
+# The price column will be overwritten with new prices
+spreadsheetPath = "Test_Price.xlsx"
+cardNameColumn = 0
+foilFlagColumn = 1
+priceColumn = 2
 
 
 def main():
-    sheet = client.open(spreadsheetName).sheet1
+    originalBook = xlrd.open_workbook(spreadsheetPath)
+    originalSheet = originalBook.sheet_by_index(0)
+    tempBook = copy(originalBook)
+    tempSheet = tempBook.get_sheet(0)
 
-    cardNames = sheet.col_values(cardNameColumn)
-    foil = sheet.col_values(foilFlagColumn)
+    cardNames = originalSheet.col_values(cardNameColumn)
+    foil = originalSheet.col_values(foilFlagColumn)
 
     header = True
+    numCards = len(cardNames)
 
-    for i in range(len(cardNames)):
+    for i in range(numCards):
         if (header):
             header = False
         else:
             currCard = make_card(cardNames[i], checkFoil(foil[i]))
             price = "$" + getPriceFor(currCard.name, currCard.foil)
-            print("cost of " + currCard.name + " is " + price)
-            sheet.update_cell(i + 1, priceColumn, price)
+            # print("cost of " + currCard.name + " is " + price)
+            tempSheet.write(i, priceColumn, price)
+            sys.stdout.write('\r')
+            sys.stdout.write("[{:{}}] {:.1f}%".format("=" * i, numCards - 1, (100 / (numCards - 1) * i)))
+            sys.stdout.flush()
+    tempBook.save(spreadsheetPath + '.new' + os.path.splitext(spreadsheetPath)[-1])
 
 
 class Card(object):
@@ -56,6 +58,8 @@ def make_card(name, foil):
 
 def getPriceFor(cardName, foilFlag):
     resp = requests.get('https://api.scryfall.com/cards/named?fuzzy=' + cardName)
+    if (resp.status_code != 200):
+        return "Card Not Found"
     json_resp = resp.json()
     dump = json.dumps(json_resp)
     data = json.loads(dump)
@@ -74,5 +78,6 @@ def checkFoil(foilFlag):
         return False
 
 
-if __name__ == '__main__':
+# ----------------------------------------------------------------------
+if __name__ == "__main__":
     main()
