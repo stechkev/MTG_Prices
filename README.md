@@ -1,11 +1,13 @@
 # MTG_Prices
-Pulls MTG pricing info from Scryfall then updates a google sheet with that info
+## Pulls MTG pricing info from Scryfall then updates a google sheet with that info
 
-Get pyhon first:
+Get python first:
 go here, click the button https://www.python.org/downloads/
 update the variables in the script
 go to the script you want to run and type:
 python <scriptname>.py
+
+
 
 Local Xlsx:
 Need the full path to the file you're using, as well as the column indexes. Those variables at the top should be the only ones you need to change.
