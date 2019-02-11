@@ -12,13 +12,14 @@ spreadsheetPath = "Test_Price.xlsx"
 cardNameColumn = 0
 foilFlagColumn = 1
 priceColumn = 2
+sheetIndex = 0
 
 
 def main():
     originalBook = xlrd.open_workbook(spreadsheetPath)
-    originalSheet = originalBook.sheet_by_index(0)
+    originalSheet = originalBook.sheet_by_index(sheetIndex)
     tempBook = copy(originalBook)
-    tempSheet = tempBook.get_sheet(0)
+    tempSheet = tempBook.get_sheet(sheetIndex)
 
     cardNames = originalSheet.col_values(cardNameColumn)
     foil = originalSheet.col_values(foilFlagColumn)
