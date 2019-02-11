@@ -4,7 +4,7 @@ _________________
 Do these steps:
 1. go here, click the button https://www.python.org/downloads/
 2. update the variables in the script
-3. go to the script you want to run and type: python <scriptname>.py
+3. go to the script you want to run and type: python scriptname.py
 _________________
 
 
