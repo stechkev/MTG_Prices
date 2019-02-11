@@ -1,6 +1,9 @@
 # MTG_Prices
 Pulls MTG pricing info from Scryfall then updates a google sheet with that info
 
+Local Xlsx:
+Need the full path to the file you're using, as well as the column indexes. Those variables at the top should be the only ones you need to change.
+
 Google don't forget these steps:
 There is one last required step to authorize your app, and it’s easy to miss!
 
