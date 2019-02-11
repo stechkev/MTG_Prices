@@ -1,6 +1,6 @@
 # MTG_Prices
-## Pulls MTG pricing info from Scryfall then updates a google sheet with that info
-
+Pulls MTG pricing info from Scryfall then updates a google sheet with that info
+_________________
 Get python first:
 go here, click the button https://www.python.org/downloads/
 update the variables in the script
