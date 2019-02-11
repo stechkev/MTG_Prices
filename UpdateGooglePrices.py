@@ -1,3 +1,5 @@
+#For use with a google drive spreadsheet.
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import requests
@@ -6,7 +8,7 @@ import time
 
 # User Data:
 # Edit the following variable to match your sheet
-# The columns should correspond to those in your sheet, with column a bein 1 and so on.
+# The columns should correspond to those in your sheet, with column 'a' being '1' and so on.
 spreadsheetName = "Copy of Magic Collection"
 cardNameColumn = 2
 foilFlagColumn = 3
