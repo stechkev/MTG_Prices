@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-
+import math
 import requests
 import xlrd
 from xlutils.copy import copy
@@ -36,7 +36,7 @@ def main():
             # print("cost of " + currCard.name + " is " + price)
             tempSheet.write(i, priceColumn, price)
             sys.stdout.write('\r')
-            sys.stdout.write("[{:{}}] {:.1f}%".format("=" * i, numCards - 1, (100 / (numCards - 1) * i)))
+            sys.stdout.write("[{:{}}] {:.1f}%".format("=" * math.floor(100 / (numCards - 1) * i), 100, (100 / (numCards - 1) * i)))
             sys.stdout.flush()
     tempBook.save(spreadsheetPath + '.new' + os.path.splitext(spreadsheetPath)[-1])
 

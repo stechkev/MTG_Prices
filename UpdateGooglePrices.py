@@ -1,10 +1,11 @@
-#For use with a google drive spreadsheet.
+# For use with a google drive spreadsheet.
+import json
+import math
+import sys
 
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 import requests
-import json
-import time
+from oauth2client.service_account import ServiceAccountCredentials
 
 # User Data:
 # Edit the following variable to match your sheet
@@ -27,6 +28,7 @@ def main():
     foil = sheet.col_values(foilFlagColumn)
 
     header = True
+    numCards = len(cardNames)
 
     for i in range(len(cardNames)):
         if (header):
@@ -35,6 +37,10 @@ def main():
             currCard = make_card(cardNames[i], checkFoil(foil[i]))
             price = "$" + getPriceFor(currCard.name, currCard.foil)
             print("cost of " + currCard.name + " is " + price)
+            sys.stdout.write('\r')
+            sys.stdout.write(
+                "[{:{}}] {:.1f}%".format("=" * math.floor(100 / (numCards - 1) * i), 100, (100 / (numCards - 1) * i)))
+            sys.stdout.flush()
             sheet.update_cell(i + 1, priceColumn, price)
 
 
