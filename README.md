@@ -1,5 +1,5 @@
 # MTG_Prices
-Pulls MTG pricing info from Scryfall then updates a google sheet with that info
+Pulls MTG pricing info from Scryfall/TCG then updates a spreadsheet with that info
 _________________
 Do these steps:
 1. go here, click the button https://www.python.org/downloads/
